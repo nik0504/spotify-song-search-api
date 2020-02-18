@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Spotify</title>
+	<style>
+		body{
+			background-color: lightyellow;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		// function playSong() {
+		// 	var link = tracks.items[i].external_urls.spotify;
+		// 	playSong.src=link;
+		// }
+		async function loadsong() {
+			let getValue = document.getElementById('Searchsong').value;
+
+			let tempResponse = await fetch("https://api.spotify.com/v1/search?q="+getValue+"&type=track%2Cartist&market=US&limit=10&offset=0",{
+				headers: {
+					"Accept": "application/json"  ,
+					"Content-Type": "application/json" ,
+					"Authorization": "Bearer BQB8wWx4XFzlXCEIgQcacRoftoGVjkebkKtUQP2MPCWWFcI_DU5Uh96gPk1bXYyKfGB-TZMNgmtJ8fQh8V_9EwaTyDNMlmdnVltHZdun6Q1GujRT1vx3EJ8QWMxlf_fG9eRwfkihvxxxNSY6hslHVjDMs5JNl-t_toQdKKtu_tOlxeTkOp1iVlnH0wDjq3Bbh_Oi6P7YAJcK7HcLLK-d84QT7-cgbg9tFlIMbQpaBAPoIWsdPUjRoOQuuV_Nbxncf7SqD1Fq-UvOGtAW3OoGcpbijtMydoQ"
+				}
+			})
+			let response = await tempResponse.json();
+			let artists = response.artists;
+			let tracks = response.tracks.items;
+			console.log(response);
+			//document.getElementById('result').innerHTML= getValue;
+
+			//for all links
+			var i;
+			//const allName = document.getElementById('new');
+			for(i=0;i<7;i++){
+			var trackName = document.createElement("p");
+			var ArtistName = document.createElement("img");
+			//var playSong = document.createElement("a");
+			//var songframe = document.createElement("iframe");
+			// playSong.addEventListner('click', function getLink() {
+			// var link = tracks.items[i].external_urls.spotify;
+			// playSong.src=link;
+			//  })
+			// playSong.onclick(function getLink() {
+			var link = tracks[i].external_urls.spotify;
+			var newlink = document.createElement('a');
+			//newlink.setAttribute('class', 'signature');
+			newlink.innerText='Play the Song';
+			newlink.target="_blank";
+			newlink.href =link;
+			//  })
+			//playSong.innerHTML = '<button onclick="playSong()" />';
+			ArtistName.src=tracks[i].album.images[2].url;
+			trackName.innerHTML = tracks[i].name;
+			//document.getElementById("new").innerHTML=trackName;
+			document.getElementById("new").appendChild(trackName);
+			document.getElementById("new").appendChild(ArtistName);
+			document.getElementById("new").appendChild(newlink);
+			//document.getElementById("new").appendChild(songframe);
+		}
+			// for image show
+				// var ArtistName = document.createElement("img");
+				// ArtistName.src=artists.items[0].images[2].url;
+				// const pho = document.getElementById('s');
+				// pho.appendChild(ArtistName);
+
+		}
+		function enter(event){
+			var key= event.keyCode;
+			
+			if(key ==187 || key==13){
+				loadsong();
+			}
+		}
+			// document.addEventListner("DOMContentLoaded",event =>{
+			// 	document.getElementById()
+			// })
+	</script>
+
+	<center>
+		<div>
+			<h1>Spotify Search</h1>
+			<input type="text" id="Searchsong" style="width: 200px"><br><br>
+			<button type="button" value="Submit" id="Submit" onclick="loadsong()" onkeydown="enter(event)" style="color:red; font-size: 16px">Submit</button>
+			<p id="result"></p>
+			<p id="na"></p>
+			<section id="s"></section>
+			<img id="photo">
+		</div>
+	</center>
+	<div id="new" style="background-color: lightpink">
+		<h1>Songs</h1>
+	</div>
+</body>
+</html>

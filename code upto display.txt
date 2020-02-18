@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Spotify</title>
+	<style>
+		body{
+			background-color: lightyellow;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		async function loadsong() {
+			let getValue = document.getElementById('Searchsong').value;
+
+			let tempResponse = await fetch("https://api.spotify.com/v1/search?q="+getValue+"&type=track%2Cartist",{
+				headers: {
+					"Accept": "application/json"  ,
+					"Content-Type": "application/json" ,
+					"Authorization": "Bearer BQBKTxx4rojadTbM1rX9jeTpedzItSRRVd5VrCECJPGvbfyIeF4vvfyrAOm45ts4TzKRDEE35_YESokP9CvxiPMg8Qx2hDAF5tRZB3NiOfW35Ut2_-w_9wI9h9Ut4e25xxkjSdZdvaOONHVJFR3denmCVXJwj9G9ld01eMw-cINzFEC5QQCudzetwpqITgKrrqSn0Vt6EWGT-aXCjZXns-oL3bT4ESkNzHNzEtQ-diZPL5hGB1Fm8xEJqcteeoxPuh8WcQWsXug6g2T_2lXXObxc14s173s"
+				}
+			})
+			let response = await tempResponse.json();
+			let artists = response.artists;
+			let tracks = response.tracks;
+			console.log(response);
+			//document.getElementById('result').innerHTML= getValue;
+
+			//for all links
+			var i;
+			//const allName = document.getElementById('new');
+			for(i=0;i<7;i++){
+			var trackName = document.createElement("p");
+			var ArtistName = document.createElement("img");
+			var playSong = document.createElement("button");
+			// playSong.onclick(function getLink() {
+			// 	var link = tracks.items[i].external_urls.spotify;
+			// })
+			playSong.innerHTML = "Play the Song";
+			ArtistName.src=tracks.items[i].album.images[2].url;
+			trackName.innerHTML = tracks.items[i].name;
+			//document.getElementById("new").innerHTML=trackName;
+			document.getElementById("new").appendChild(trackName);
+			document.getElementById("new").appendChild(ArtistName);
+			document.getElementById("new").appendChild(playSong);
+		}
+			// for image show
+				// var ArtistName = document.createElement("img");
+				// ArtistName.src=artists.items[0].images[2].url;
+				// const pho = document.getElementById('s');
+				// pho.appendChild(ArtistName);
+
+		}
+			// document.addEventListner("DOMContentLoaded",event =>{
+			// 	document.getElementById()
+			// })
+	</script>
+
+	<center>
+		<div>
+			<h1>Search your song</h1>
+			<input type="text" id="Searchsong" style="width: 200px"><br><br>
+			<button type="button" value="Submit" id="Submit" onclick="loadsong()" style="color:red; font-size: 16px">Submit</button>
+			<p id="result"></p>
+			<p id="na"></p>
+			<section id="s"></section>
+			<img id="photo">
+		</div>
+	</center>
+	<div id="new">
+		<h1>Songs</h1>
+	</div>
+</body>
+</html>
